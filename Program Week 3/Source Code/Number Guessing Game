@@ -1,0 +1,79 @@
+##########################################################################################################################################################################################################################
+##
+## CS 101 Lab
+## Program 3
+## Nicholas Anderson
+## naaf93@umsystem.edu
+##
+## Problem: The problem is that we need to guess a number that an individual is inputting through the use remainders
+##
+## Algorithm:
+##  1) Prints the intro statement
+##  2) Creates blank lists for storing values
+##  3) Loop is started with definition of repeat
+##  4) Loop is entered, asking for the remainder of the number divided by 3, and creating a list with the values between 1 and 100 that fit this.
+##  5) Another loop is entered, asking for the remainder of the number divided by 5 this time, and creating a list with those values.
+##  6) The last loop is entered asking for the remainder of the number divided by 7, this creates the the final list to store these values. 
+##  7) Each list is made into a set
+##  8) The sets are compared, and similar numbers are retained and shared between the lists
+##  9) The output is created using the values of the remainders 
+##  10) The final question asks if the user would like to try again or stop the program.
+##
+## Error Handling:
+## I ran into some errors with getting the right numbers to output.  I found that I needed a nested loop statment, and before that I was getting up to 10 differnet numbers being output at once.
+## Other comments:
+## I found that comparing lists was the most efficient way to do this, but I also found initially that if I used a lot of if/elif statments that I could get the right values to ouput, but it was very long and tedious.
+##
+###########################################################################################################################################################################################################################
+print('Welcome to the Flarsheim Guesser!\n')
+
+list1 = []
+list2 = []
+list3 = []
+
+repeat = 'Y'
+
+while repeat == 'Y':
+    rem3 = int(input('What is the remainder when the number is divided by 3?'))
+    for val1 in range(1, 101):
+        if (val1 % 3) < 0:
+            print('The value entered must be 0 or greater')
+        if (val1 % 3) >= 3:
+            print('The value entered must be less than 3')
+        for val1 in range(1, 101):
+            div3 = val1 % 3
+            if div3 == rem3:
+                list1.append(val1)
+    rem5 = int(input('What is the remainder when the number is divided by 5?'))
+    for val2 in range(1, 101):
+        if (val2 % 5) < 0:
+            print('The value entered must be 0 or greater')
+        if (val2 % 5) >= 5:
+            print('The value entered must be less than 5')
+        for val2 in range(1, 101):
+            div5 = val2 % 5
+            if div5 == rem5:
+                list2.append(val2)
+    rem7 = int(input('What is the remainder when the number is divided by 7?'))
+    for val3 in range(1, 101):
+        if (val3 % 7) < 0:
+            print('The value entered must be 0 or greater')
+        if (val3 % 7) >= 7:
+            print('The value entered must be less than 7')
+        for val3 in range (1, 101):
+            div7 = val3 % 7
+            if div7 == rem7:
+                list3.append(val3)
+
+    set1 = set(list1)
+    set2 = set(list2)
+    set3 = set(list3)
+
+    onetwo = set1.intersection(set2)
+    twothree = onetwo.intersection(set3)
+
+    num = list(twothree)
+
+    print('Your number was', *num)
+    print('How amazing is that?')
+    repeat = input('Do you want to play again? Y to continue, N to quit ==> ')
