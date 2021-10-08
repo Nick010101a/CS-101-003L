@@ -1,0 +1,133 @@
+##################################################################################
+##
+## Nicholas Anderson
+## Program 5 Lab
+## 10-2-21
+## naaf93@umsystem.edu
+##
+## PROBLEM:
+##  Need to develop a program for reading library cards and providing proper information as per the cards values.
+##
+## ALGORITHM:
+## 1) Functions are created defining parts of the card and their values meanings. 
+## 2) The program runs through all the parts of the functions, to gain values and compare.
+## 3) Once compared, the values will keep asking for library cards until a valid library card is inserted.
+## 4) When the user submits a blank input, the program terminates. 
+## 
+## ISSUES:
+##  I have had a lot of issues getting the program to loop correctly for certain errors in the library cards.
+####################################################################################
+import string
+def get_length(library_card):
+    while len(library_card) != 10:
+        print('Library card is invalid.')
+        print('The length given must be 10\n')
+        library_card = input('Enter library card.  Hit Enter to Exit ==> ')
+        continue
+    if len(library_card) == 10:
+        return library_card
+    
+def get_school(library_card):
+    if int(library_card[5]) == 1:
+        print('The card belongs to a student in the School of Computing and Engineering SCE')
+    elif int(library_card[5]) == 2:
+        print('The card belongs to a student in the School of Law')
+    elif int(library_card[5]) == 3:
+        print('The card belongs to a student in the College of Arts and Sciences.')
+
+def get_grade(library_card):
+    if int(library_card[6]) == 1:
+        print('The card belongs to a Freshman')
+    elif int(library_card[6]) == 2:
+        print('The card belongs to a Sophmore')
+    elif int(library_card[6]) == 3:
+        print('The card belongs to a Junior')
+    elif int(library_card[6]) == 4:
+        print('The card belongs to a Senior')
+
+def get_check_digit(get_character):
+    (num1, num2, num3, num4, num5, num6, num7, num8, num9, num10) = get_character
+    num1 = num1 * 1
+    num2 = num2 * 2
+    num3 = num3 * 3
+    num4 = num4 * 4
+    num5 = num5 * 5
+    num6 = num6 * 6
+    num7 = num7 * 7
+    num8 = num8 * 8
+    num9 = num9 * 9
+    num10 = num10 * 10
+    check_digit = (num1 + num2 + num3 + num4 + num5 + num6 + num7 + num8 + num9 + num10) % 10
+    return check_digit
+
+def character_value(length):
+    i = 0
+    my_list = []
+    for i in range(0, len(length) - 1):
+        while length[i].isalpha() == True:
+            if i > 4:
+                print('Library card is invalid.')
+                print('The first 5 characters must be A-Z.  The invalid character is {} at {}\n' .format(length[i]), i)
+                length = input('Enter library card.  Hit Enter to Exit ==> ')
+                i = 0
+            elif i < 5:
+                num = string.ascii_uppercase.index(length[i])
+                i += 1
+                my_list.append(num)
+            if i > (len(length) - 1):
+                length = library_card
+                return my_list
+        while length[i].isdigit() == True:
+            if i < 5:
+                print('Library card is invalid.')
+                print('The first 5 characters must be A-Z.  The invalid character is {} at {}\n' .format(length[i], i))
+                length = input('Enter library card.  Hit Enter to Exit ==> ')
+                i = 0
+            elif i > 4:
+                num = ord(length[i])
+                i += 1
+                my_list.append(num)
+                if int(length[5]) > 3:
+                    print('Library card is invalid.')
+                    print('The 6th character can only be 1, 2, or 3.\n')
+                    length = input('Enter library card.  Hit Enter to Exit ==> ')
+                    i = 0
+                elif int(length[6]) > 4:
+                    print('Library card is invalid.')
+                    print('The 7th character can only be 1, 2, 3, or 4.\n')
+                    length = input('Enter library card.  Hit Enter to Exit ==> ')
+                    i = 0
+            if i > (len(length) - 1):
+                length = library_card
+                return my_list
+                
+
+def verify_check_digit(library_card, get_check_digit):
+    if int(library_card[9]) == get_check_digit:
+        return True
+    while library_card[9] != get_check_digit:
+        print('Library card is invalid.')
+        print('Check digit {} does not match calculated value {}.\n' .format(library_card[9], get_check_digit))
+        library_card = input('Enter Library Card.  Hit Enter to Exit ==> ')
+        if int(library_card[9]) == get_check_digit:
+            return True
+        elif len(library_card) != 10:
+            return get_length(library_card)
+        elif character_value(library_card) != True:
+            return character_value(library_card)
+        
+        
+
+
+if __name__ == "__main__":
+
+
+    library_card = input('Enter library card.  Hit Enter to Exit ==> ')
+    while library_card != '':
+        lng = get_length(library_card)
+        chr = character_value(lng)
+        dig = get_check_digit(chr)
+        ver = verify_check_digit(library_card, dig)
+        if ver == True:
+            get_school(library_card)
+            get_grade(library_card)
