@@ -131,3 +131,4 @@ if __name__ == "__main__":
         if ver == True:
             get_school(library_card)
             get_grade(library_card)
+            library_card = input('Enter library card.  Hit Enter to Exit ==> ')
