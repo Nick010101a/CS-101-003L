@@ -1,0 +1,102 @@
+#############################################################################################
+##
+## Nicholas Anderson
+## naaf93@umsystem.edu
+## CS 101 Lab
+## Program 6
+##
+## PROBLEM: Need to encrypt and decrypt strings inserted by a user.  
+##
+## ALGORITHM:
+##  1) Definition menu, encrypt, decrypt, user_input and main are created.
+##  2) Definition menu returns a statement to give user information about what to input.
+##  3) Defintion encrypt returns an encrypted message with a string and a number 1-4 input by the user. 
+##  4) Defintion decrypt does the same as encrypt but in reverse.
+##  5) Defintion user_input just checks to make sure that the value that the user wants to shift by is 1, 2, 3, or 4. 
+##  6) Definition menu is what runs the whole program. A loop is created to output the encryption or decryption, 
+##  and then quits the program if the user no longer wants to play.  
+##  7) In the name == main function, only the menu function is returned to give all the information.
+##
+## PROBLEMS: A problem I encountered was finding a way to loop the shift amount around, like shifting z to value a.  
+##
+###############################################################################################
+import string
+
+def menu():
+    print('\nMAIN MENU:')
+    print('1) Encode a string')
+    print('2) Decode a string')
+    print('Q) Quit')
+
+def encrypt(str, int):
+    i = 0
+    str = str.lower()
+    for i in range(0, len(str)):
+        num = ord(str[i])
+        if num == 32:
+            mylist.append(' ')
+            i += 1
+        else:
+            num += int
+            if num > 122:
+                num -= 26
+            newlet = chr(num)
+            mylist.append(newlet)
+            i += 1
+    list = ''.join(mylist)
+    print(list.upper())
+
+def decrypt(str, int):
+    i = 0
+    str = str.lower()
+    for i in range(0, len(str)):
+        num = ord(str[i])
+        if num == 32:
+            mylist.append(' ')
+            i += 1
+        else:
+            num -= int
+            if num < 97:
+                num += 26
+            newlet = chr(num)
+            mylist.append(newlet)
+            i += 1
+    list = ''.join(mylist)
+    print(list.upper())
+
+def user_input():
+    global shift
+    shift = int(input('\nEnter the number to shift letters by: '))
+    if shift in range(1, 5):
+        num = shift
+        return num
+    while shift not in range(1, 5):
+        shift = int(input('Can only be 1, 2, 3, or 4.  Enter the number to shift letters by: '))
+
+def main():
+    global selection
+    global mylist
+    global text
+    selection = 'q'
+    while selection != 'Q':
+        mylist = []
+        menu()
+        selection = input('Enter your selection ==> ')
+        while selection not in ('1', '2', 'Q'):
+            selection = input('Enter your selection ==> ')
+        if selection == '1':
+            text = input('\nEnter (brief) text to encrypt: ')
+        elif selection == '2':
+            text = input('\nEnter (brief) text to decrypt: ')
+        elif selection == 'Q':
+            raise SystemExit
+        user_input()
+        if selection == '1':
+            encrypt(text, shift)
+        elif selection == '2':
+            decrypt(text, shift)
+
+
+
+if __name__ == "__main__":
+    main()
