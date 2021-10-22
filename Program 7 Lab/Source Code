@@ -1,0 +1,18 @@
+while True:
+    try:
+        mpg = int(input('Enter the minimum mpg ==> '))
+        filename =input('\nEnter the name of the input vehicle file ==> ')
+        outfile = input('\nEnter the name of the file to output to ==> ')
+        with open(filename) as f:
+            line = f.readline()
+            for line in f:
+                listy = []
+                x = line.split('\t')
+                listy = x
+                if int(x[8]) >= mpg:
+                    print(x[0], x[1], x[2], x[7])
+                else:
+                    continue        
+
+     except FileNotFoundError:
+        mpg = int(input('Enter the minimum mpg ==> '))
