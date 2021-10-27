@@ -1,0 +1,170 @@
+import math
+import functools
+
+def grade_menu():
+    print('{:^30}' .format('Grade Menu'))
+    print('1 - Add Test')
+    print('2 - Remove Test')
+    print('3 - Clear Tests')
+    print('4 - Add Assignment')
+    print('5 - Remove Assignment')
+    print('6 - Clear Assignments')
+    print('D - Display Scores')
+    print('Q - Quit\n')
+
+def add_test():
+    test = int(input('Enter test score 0 - 100 ==> '))
+    while test not in range(0, 101):
+        test = int(input('Test score must be 0 - 100 ==> '))
+        if test in range(0, 101):
+            return mylist1.append(test)
+        else:
+            continue
+    return mylist1.append(test)
+    
+def remove_test():
+    test = int(input('Enter test score to remove 0 -100 ==> '))
+    try:
+        index = mylist1.index(test)
+        return mylist1.remove(mylist1[index])
+
+    except ValueError:
+        while test not in mylist1:
+            test = int(input('Test score not found. Enter test score to remove 0 - 100 ==> '))
+            if test in mylist1:
+                index = mylist1.index(test)
+                return mylist1.remove(mylist1[index])
+            else:
+                continue
+
+def clear_tests():
+    return mylist1.clear()
+
+def add_assignment():
+    program = int(input('Enter test score 0 - 100 ==> '))
+    while program not in range(0, 101):
+        program = int(input('Test score must be 0 - 100 ==> '))
+        if program in range(0, 101):
+            return mylist2.append(program)
+        else:
+            continue
+    return mylist2.append(program)
+
+def remove_assignment():
+    program = int(input('Enter test score to remove 0 -100 ==> '))
+    try:
+        index = mylist2.index(program)
+        return mylist2.remove(mylist1[index])
+
+    except ValueError:
+        while program not in mylist2:
+            program = int(input('Test score not found. Enter test score to remove 0 - 100 ==> '))
+            if program in mylist2:
+                index = mylist2.index(program)
+                return mylist2.remove(mylist2[index])
+            else:
+                continue
+
+def clear_assignments():
+    return mylist2.clear()
+
+def display_scores():
+    num = len(mylist1)
+    num2 = len(mylist2)
+    try:
+        minn = min(mylist1)
+    except ValueError:
+        minn = 'N/A'
+    
+    try:
+        minn2 = min(mylist2)
+    except ValueError:
+        minn2 = 'N/A'
+    
+    try:
+        maxx = max(mylist1)
+    except ValueError:
+        maxx = 'N/A'
+    
+    try:
+        maxx2 = max(mylist2)
+    except ValueError:
+        maxx2 = 'N/A'
+
+    try:
+        total = 0
+        i = 0
+        for i in range(num):
+            total += mylist1[i]
+            i += 1
+        avg = total/num
+    
+    except:
+        avg = 'N/A'
+
+    try:
+        total = 0
+        i = 0
+        for i in range(num2):
+            total += mylist2[i]
+            i += 1
+        avg2 = total/num2
+    
+    except:
+        avg2 = 'N/A'
+    
+    try:
+        std = math.sqrt(float(functools.reduce(lambda x, y: x + y, map(lambda x: (x - avg) ** 2, mylist1))) / len(mylist1))
+        if std == 0:
+            std = 'N/A'
+    except:
+        std = 'N/A'
+
+    try:
+        std2 = math.sqrt(float(functools.reduce(lambda x, y: x + y, map(lambda x: (x - avg2) ** 2, mylist2))) / len(mylist2))
+        if std2 == 0:
+            std = 'N/A'
+    except:
+        std2 = 'N/A'
+
+    try:
+        weight_score = (avg * 0.6) + (avg2 * 0.4)
+    except:
+        weight_score = 'N/A'
+
+    print('{:<15}{:<8}{:<8}{:<8}{:<8}{:<8}' .format('Type', '#', 'Min', 'Max', 'Avg', 'STD'))
+    print('=' * 50)
+    try:
+        print('{:<15}{:<8}{:<8}{:<8}{:<8.2f}{:<8.2f}' .format('Tests', num, minn, maxx, avg, std))
+    except:
+        print('{:<15}{:<8}{:<8}{:<8}{:<8}{:<8}' .format('Tests', num, minn, maxx, avg, std))
+    try:
+        print('{:<15}{:<8}{:<8}{:<8}{:<8.2f}{:<8.2f}' .format('Programs', num2, minn2, maxx2, avg2, std2))
+    except:
+        print('{:<15}{:<8}{:<8}{:<8}{:<8}{:<8}' .format('Programs', num2, minn2, maxx2, avg2, std2))
+    try:
+        print('\nThe weighted score is {:.2f}' .format(weight_score))
+    except:
+        print('\nThe weighted score is {}' .format(weight_score))
+
+if __name__ == "__main__":
+    mylist1 = []
+    mylist2 = []
+    user_val = 0
+    while user_val != 'Q':
+        grade_menu()
+        user_val = input()
+        if user_val == '1':
+            add_test()
+        elif user_val == '2':
+            remove_test()
+        elif user_val == '3':
+            clear_tests()
+        elif user_val == '4':
+            add_assignment()
+        elif user_val == '5':
+            remove_assignment()
+        elif user_val == '6':
+            clear_assignments()
+        elif user_val == 'D':
+            display_scores()
