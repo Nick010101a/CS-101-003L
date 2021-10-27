@@ -1,3 +1,23 @@
+###################################################################################################################
+##
+## Nicholas Anderson
+## Comp-Sci Lab 101
+## naaf93@umsystem.edu
+## October 26, 2021
+##
+## PROBLEM: Need to determine factors of weighting grades for students.
+##
+## AGLORITHM:
+##  1) Multiple functions are created to output each needed needed output for 1 - 6 and D.  
+##  2) In the running part of the code, two empty lists are created, which store values for the students grades.
+##  3) User is then asked for input, then in a while statement, the user inputs one of the menu values.
+##  4) After the user is done, they can submit "Q" and end the program.
+##
+## PROBLEMS: The problem I encountered was when a value was N/A and I was trying to print out a float input.  This
+## took a while to figure out but I just needed try/except statements.
+##
+####################################################################################################################
+
 import math
 import functools
 
