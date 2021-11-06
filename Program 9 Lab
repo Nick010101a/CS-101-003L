@@ -1,0 +1,17 @@
+import csv
+
+def read_in_file():
+    filename = input('Input file name ==> ')
+    lines = []
+    f = open(filename, encoding = 'utf-8')
+    fcsv = csv.reader(f)
+    for line in fcsv:
+        lines.append(line)
+    f.close()
+    return lines
+
+def month_from_number(lines):
+    print(lines[1])
+
+if __name__ == "__main__":
+    print(month_from_number(read_in_file()))
