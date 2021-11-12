@@ -1,0 +1,80 @@
+###############################################################################################
+##
+## Nicholas Anderson
+## Comp Sci 101 Lab
+## November 12 2021
+## naaf93@umsystem.edu
+##
+## Problem: Must output 10 most common words that occur in a document that are longer than 3 letters.
+##
+## ALGORITHM:
+##  1) Definitions are created to get file name, then narrow down the list of values to those that
+##    are greater than 3 characters long, and then finally to the top 10 most occuring words.  These
+##    are then printed to with the values of how many words occur only once and the number of unique words. 
+##  2) The functions are ran and produce all the necessary outputs.
+##
+## Issues: The biggest issue I ran into was finding a way to count the number of iterations of a word.
+##
+#################################################################################################
+from string import punctuation
+import os
+def get_file():
+    global filename
+    try:
+        filename = input('\nInput file name to open ==> ')
+        with open(filename) as x:
+            pass
+    except FileNotFoundError:
+        while True:
+            filename = input('\nFile not found. Please try again ==> ')
+            if os.path.isfile(filename) == True:
+                break
+    
+def read_file():
+    global y
+    with open(filename) as f:
+        for line in f:
+            y = line.split()
+        y = [''.join(c for c in s if c not in punctuation) for s in y]
+        return y
+        
+def word_count():
+    global mydict
+    mydict = {}
+    for i in y:
+        y.count(i)
+        mydict[i] = y.count(i)
+    return mydict
+
+def word_values():
+    global mydict_sorted
+    for key, val in list(mydict.items()):
+        if len(key) < 4:
+            mydict.pop(key)
+    mydict_sorted = sorted(mydict.items(), key = lambda x: x[1], reverse = True)
+    return mydict_sorted
+
+def word_order():
+    list1, list2 = zip(*mydict_sorted[:10])
+    x = list(list1)
+    y = list(list2)
+    print('\nMost frequently used words')
+    print('{:<10}{:<10}{:>10}' .format('#', 'Word', 'Freq.'))
+    print('{}'.format('='*30))
+    for i in range(0, 10):
+        print('{:<10}{:<10}{:>10}' .format(i + 1, x[i], y[i]))
+
+def word_occurrence():
+    x = sum(value == 1 for value in mydict.values())
+    print('\nThere are {} words that occur only once' .format(x))
+    listy1, listy2 = zip(*mydict_sorted)
+    y = sum(listy2)
+    print('There are {} unique words in the document\n' .format(y))
+
+if __name__ == "__main__":
+    get_file()
+    read_file()
+    word_count()
+    word_values()
+    word_order()
+    word_occurrence()
