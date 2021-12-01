@@ -1,17 +1,60 @@
 import csv
 
 def read_in_file():
-    filename = input('Input file name ==> ')
-    lines = []
-    f = open(filename, encoding = 'utf-8')
-    fcsv = csv.reader(f)
-    for line in fcsv:
-        lines.append(line)
-    f.close()
-    return lines
+    rows = []
+    with open('CrimeDataSmall.csv', encoding = 'utf-8') as f:
+        reader = csv.reader(f)
+        for line in reader:
+            rows.append(line)
+    return rows
+            
 
-def month_from_number(lines):
-    print(lines[1])
+def month_from_number(number):
+    val = {1: 'January', 2: 'February', 3: 'March', 4: 'April', 5: 'May', 6: 'June',
+    7: 'July', 8: 'August', 9: 'September', 10: 'October', 11: 'November', 12: 'December'}
+    try:
+        return val[number]
+    except:
+        while number not in range(1, 13):
+            number = int(input('Number must be between 1-12 ==> '))
+            if number in range(1, 13):
+                return val[number]
+
+def create_reported_date_dict(rows):
+    i = 0
+    data = {}
+    while i in range(len(rows) - 1):
+        line = rows[i]
+        i += 1
+        data.update({line[1] : 0})
+        for x in line:
+            if x in data:
+                data[x] += 1
+            else:
+                data[x] = 1
+    return data
+
+def create_reported_month_dict(lists):
+    data = {}
+    for x in lists:
+        if x[1][0:1] in range(1, 13):
+            data.update({x, 0})
+        else:
+            continue
+    return data
+        
+    
+    
+    
+
 
 if __name__ == "__main__":
-    print(month_from_number(read_in_file()))
+        
+
+    x = int(input('Input plz'))
+    print(month_from_number(x))
+    print(read_in_file())
+    z = read_in_file()
+    print(create_reported_date_dict(z))
+    print(create_reported_month_dict(z))
+
