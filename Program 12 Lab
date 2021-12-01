@@ -1,0 +1,98 @@
+##################################################################################################################
+##
+## Nicholas Anderson
+## Comp-Sci Lab 101
+## November 30 2021
+## naaf93@umsystem.edu
+##
+## PROBLEM: Must create program that can draw squares and circles that both fill in and don't fill in
+##
+## ALGORITHM:
+##  1) turtle is imported, then classes Point, Box, Boxfilled, Circle, and CircleFilled are created.
+##  2) In each class, different functions are created in order to draw different shapes.
+##  3) For every class except Point, there is a class that is inherited in order to create efficiency.
+##  4) In the main function, examples are given of creating a box, filled box, circle, and filled circle. 
+##
+## ISSUES: The only issue I encountered was running into a problem with filling the drawings, which all I had 
+##  to do was define fillcolor using turtle before using the begin_fill function.
+##
+###################################################################################################################
+import turtle
+
+class Point:
+    def __init__(self, x , y, color):
+        self.x = x
+        self.y = y
+        self.color = color
+
+    def draw(self):
+        turtle.penup()
+        turtle.goto(self.x, self.y)
+        turtle.pendown()
+        turtle.pencolor(self.color)
+        turtle.setheading(0)
+        self.draw_dot()
+
+    def draw_dot(self):
+        turtle.dot()
+
+class Box(Point):
+    def __init__(self, x1, y1, width, height, color):
+        self.width = width
+        self.height = height
+        super().__init__(x1, y1, color)
+
+    def draw(self):
+        Point.draw(self)
+        turtle.forward(self.width)
+        turtle.right(90)
+        turtle.forward(self.height)
+        turtle.right(90)
+        turtle.forward(self.width)
+        turtle.right(90)
+        turtle.forward(self.height)
+
+class BoxFilled(Box):
+    def __init__(self, x1, y1, width, height, color, fillcolor):
+        self.fillcolor = fillcolor
+        super().__init__(x1, y1, width, height, color)
+
+    def draw(self):
+        turtle.fillcolor(self.fillcolor)
+        turtle.begin_fill()
+        Box.draw(self)
+        turtle.end_fill()
+
+class Circle(Point):
+    def __init__(self, x1, y1, radius, color):
+        self.radius = radius
+        super().__init__(x1, y1, color)
+
+    def draw(self):
+        Point.draw(self)
+        turtle.circle(self.radius)
+
+class CircleFilled(Circle):
+    def __init__(self, x1, y1, radius, color, fillcolor):
+        self.fillcolor = fillcolor
+        super().__init__(x1, y1, radius, color)
+
+    def draw(self):
+        turtle.fillcolor(self.fillcolor)
+        turtle.begin_fill()
+        Circle.draw(self)
+        turtle.end_fill()
+
+if __name__ == "__main__":
+    a = Box(-100, 100, 50, 20, 'blue')
+    a.draw()
+
+    b = BoxFilled(1, 2, 100, 200, 'red', 'blue')
+    b.draw()
+
+    c = Circle(250, -100, 50, 'blue')
+    c.draw()
+
+    d = CircleFilled(1, 2, 50, 'blue', 'yellow')
+    d.draw()
+    input()
