@@ -1,0 +1,114 @@
+############################################################################################################################################
+##
+## Nicholas Anderson
+## Comp-Sci Lab 101
+## Program 13
+## naaf93@umsystem.edu
+##
+## Problem: Need to create math functions and then a test class in order to test outcomes of the code.
+##
+## Algorithm:
+##  1) Import modules are created, then functions for addition, averaging, and median values is created.
+##  2) The Test class is created in a seperate file, that imports necessary modules
+##  3) 8 Different test case functions are created, in order to test multiple parts of the functions in the main program.
+##
+## Issues: The only issue I had trouble with was finding a way to create the median value. I solved this by using floor division to find 
+##  out of the length of the list was even or odd, then taking that information to divide in half and then round that value in order to 
+##  find the necessary index of the list.
+##
+############################################################################################################################################
+
+
+## Grades.py
+
+import math
+
+def total(values):
+    total = 0
+    for i in range(0, len(values)):
+        total += values[i]
+    return total
+
+def average(values):
+    total = 0 
+    try:
+        for i in range(0, len(values)):
+            total += values[i]
+        average = total / len(values)
+    
+        return float(average)
+
+    except ZeroDivisionError:
+        return math.nan
+        
+def median(values):
+    values.sort()
+    median = len(values)//2
+    if len(values) == 0:
+        raise ValueError
+
+    if median == 1:
+        length = len(values)/2
+        math.floor(length)
+        median = int(length)
+        return values[median]
+    
+    else:
+        length = len(values)/2
+        length = int(length)
+        median = (values[length] + values[length - 1])/2
+        return median
+    
+
+
+if __name__ == "__main__":
+    values = [2, 9, 5, 3]
+    print(total(values))
+    print(average([]))
+    print(median(values))
+    
+===============================================================================================================================================
+
+#TEST CODE
+#Assignment13_Grades.py
+    
+    
+import unittest
+import Grades
+import math
+
+class Grade_Test(unittest.TestCase):
+
+    def test_total_returns_total_of_list(self):
+        result = Grades.total([1, 10, 22])
+        self.assertEqual(result, 33, 'The total of the function should return 33')
+
+    def test_total_returns_0(self):
+        result = Grades.total([])
+        self.assertEqual(result, 0, 'The total of the function should return 0')
+
+    def test_average_one(self):
+        result = Grades.average([2, 5, 9])
+        self.assertAlmostEqual(result, 5.3, 1)
+
+    def test_average_two(self):
+        result = Grades.average([2, 15, 22, 9])
+        self.assertAlmostEqual(result, 12, 4)
+
+    def test_average_returns_nan(self):
+        result = Grades.average([])
+        self.assertIs(result, math.nan)
+
+    def test_median_odd_number_length(self):
+        result = Grades.median([2, 5, 1])
+        self.assertEqual(result, 2)
+
+    def test_median_even_number_length(self):
+        result = Grades.median([5, 2, 1, 3])
+        self.assertEqual(result, 2.5)
+    
+    def test_median_empty_list(self):
+        with self.assertRaises(ValueError):
+            result = Grades.median([])
+    
+unittest.main()
