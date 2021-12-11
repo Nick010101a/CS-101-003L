@@ -1,0 +1,140 @@
+###################################################################################################################################
+##
+## Nicholas Anderson
+## Comp - Sci 101
+## Program 6
+## 12-10-21
+##
+## Problem: Need to develop program to give user choice of items and add or remove items from their cart and display their price.
+##
+## Algorithm:
+##  1) Classes store and Cart are created, to display users information.
+##  2) Class Cart returns the value of items in the users cart, and can add or remove items.
+##  3) The main program asks the user for inputs, and loops are generated in order to ask the user if they
+##  would like to add or remove more items until they say no to all and close the program.
+##
+## Issues: The biggest issue I had was with finding a way to store the values in a seperate area, which I solved by 
+##  creating a new dictionary to store the item and the quantity to compare to the dictionary with the price.
+##
+####################################################################################################################################
+class Store():
+    def __init__(self, name, location):
+        self.name = name
+        self.location = location
+    
+    def return_info(self):
+        return f'User placed order from: {self.name} at address: {self.location}'
+                
+
+class Cart(Store):
+    def __init__(self, name, location, product, quantity, cart, newdict, price = 0):
+        super().__init__(name, location)
+        self.product = product
+        self.quantity = quantity
+        self.cart = cart
+        self.newdict = newdict
+        self.price = price
+
+    def add_item(self):
+        if self.product in self.cart:
+            self.newdict[self.product] = self.quantity
+        return self.newdict
+            
+    def remove_item(self):
+        if self.product in self.newdict:
+            self.newdict.pop(self.product)
+        return self.newdict
+
+
+    def return_info(self):
+        self.price = (self.cart[self.product]) * (self.quantity)
+        Store.return_info(self)
+        if len(self.newdict) == 0:
+            return f'Order in cart is: 0\
+                    \nTotal receipt is $0'
+        else:
+            return f'Order in cart is:\
+                    \n{self.product} with quantity: {self.quantity}\
+                    \nTotal receipt is ${self.price:.2f}'
+    
+
+if __name__ == "__main__":
+    repeat = True
+    cart = {'Milk': 2.50, 'Bread': 1.98, 'Egg': 0.70, 'Flour': 1.18, 'Oil': 4.00, 'Cheese': 2.68}
+    name = input('Good morning! Which store do you want to use today?\n')
+    location = input('Which location do you want to use?\n')
+    print('\nProducts as follow:\
+            \nMilk:   $2.50\
+            \nBread:  $1.98\
+            \nEgg:    $0.70\
+            \nFlour:  $1.18\
+            \nOil:    $4.00\
+            \nCheese: $2.68\n')
+    product = input('Enter name of your product\n')
+    quantity = int(input('Enter quantity\n'))
+    newdict = {product : quantity}
+    a = Cart(name, location, product, quantity, cart, newdict)
+    print(a.return_info())
+ 
+    remove = input('Do you want to remove an item (yes/no)')
+    while remove == 'yes':
+        product = input('Enter name of your product\n')
+        quantity = int(input('Enter quantity\n'))
+        a = Cart(name, location, product, quantity, cart, newdict)
+        a.remove_item()
+        print(a.return_info())
+        remove = input('Do you want to remove an item (yes/no)')
+        if remove == 'no':
+            add = input('Do you want to add another item (yes/no)')
+            while add == 'yes':
+                product = input('Enter name of your product\n')
+                quantity = int(input('Enter quantity\n'))
+                a = Cart(name, location, product, quantity, cart, newdict)
+                a.add_item()
+                print(a.return_info())
+                remove = input('Do you want to remove an item (yes/no)')
+                if remove == 'no':
+                    add = input('Do you want to add another item (yes/no)')
+                    if add == 'no':
+                        raise SystemExit
+                    else:
+                        continue
+                elif remove == 'yes':
+                    break
+            if add == 'no':
+                raise SystemExit
+        else:
+            continue
+    else:
+        add = input('Do you want to add another item (yes/no)')
+        while add == 'yes':
+            product = input('Enter name of your product\n')
+            quantity = int(input('Enter quantity\n'))
+            a = Cart(name, location, product, quantity, cart, newdict)
+            a.add_item()
+            print(a.return_info())
+            remove = input('Do you want to remove an item (yes/no)')
+            if remove == 'no':
+                add = input('Do you want to add another item (yes/no)')
+                if add == 'no':
+                    raise SystemExit
+                else:
+                    continue
+            else:
+                while remove == 'yes':
+                    product = input('Enter name of your product\n')
+                    quantity = int(input('Enter quantity\n'))
+                    a = Cart(name, location, product, quantity, cart, newdict)
+                    a.remove_item()
+                    print(a.return_info())
+                    remove = input('Do you want to remove an item (yes/no)')
+                    if remove == 'no':
+                        add = input('Do you want to add another item (yes/no)')
+                        if add == 'yes':
+                            break
+                        else:
+                            raise SystemExit
+                    elif remove == 'yes':
+                        continue
+        if add == 'no':
+            raise SystemExit
